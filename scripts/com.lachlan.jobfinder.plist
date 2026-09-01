@@ -20,9 +20,8 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
-        <string>/Users/spanglew/job-finder/jobfinder.py</string>
-        <string>--notify</string>
+        <string>/bin/bash</string>
+        <string>/Users/spanglew/job-finder/scripts/update.sh</string>
     </array>
 
     <key>StartCalendarInterval</key>
