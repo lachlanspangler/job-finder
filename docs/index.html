@@ -3,24 +3,51 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Job Finder — tech · AI · quant</title>
+    <title>JobRadar — software &amp; quant roles</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <h1>Job Finder</h1>
-      <p class="sub">New-grad &amp; mid-level roles at top tech, AI, and quant companies — pulled daily from Greenhouse &amp; Ashby.</p>
-      <p id="meta" class="meta">Loading…</p>
+    <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">◎</div>
+        <div>
+          <div class="brand-name">Job<span>Radar</span></div>
+          <div class="brand-sub">software &amp; quant openings · top tech / AI / quant firms</div>
+        </div>
+      </div>
+      <div class="live" id="live"><span class="dot"></span> loading…</div>
     </header>
 
-    <section class="controls">
-      <input id="search" type="search" placeholder="Search title, company, or location…" autocomplete="off" />
-      <div id="tags" class="tags"></div>
+    <section class="stats" id="stats">
+      <div class="stat"><div class="stat-num" data-stat="total">0</div><div class="stat-label">open roles</div></div>
+      <div class="stat"><div class="stat-num" data-stat="companies">0</div><div class="stat-label">companies</div></div>
+      <div class="stat accent-fresh"><div class="stat-num" data-stat="fresh">0</div><div class="stat-label">new · 24h</div></div>
+      <div class="stat"><div class="stat-num" data-stat="week">0</div><div class="stat-label">this week</div></div>
     </section>
 
-    <main id="list" class="list"></main>
+    <section class="controls">
+      <div class="search-wrap">
+        <span class="search-ico">⌕</span>
+        <input id="search" type="search" placeholder="Search role, company, or location…" autocomplete="off" />
+      </div>
+      <div class="control-right">
+        <label class="toggle"><input type="checkbox" id="fresh-only" /><span>New only</span></label>
+        <select id="sort" aria-label="Sort">
+          <option value="new">Newest</option>
+          <option value="company">Company</option>
+          <option value="title">Title</option>
+        </select>
+      </div>
+    </section>
+
+    <div id="tags" class="tags"></div>
+
+    <main id="list" class="grid"></main>
+
     <footer class="foot">
-      Data from public Greenhouse/Ashby board APIs. Not affiliated with any listed company.
+      Live data from public Greenhouse &amp; Ashby board APIs · refreshed daily · not affiliated with any listed company.
     </footer>
 
     <script src="./app.js" defer></script>
