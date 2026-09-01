@@ -32,8 +32,14 @@
         <span class="search-ico">⌕</span>
         <input id="search" type="search" placeholder="Search role, company, or location…" autocomplete="off" />
       </div>
+      <div class="loc-wrap">
+        <span class="search-ico">⚲</span>
+        <input id="loc" type="search" placeholder="Location…" autocomplete="off" />
+      </div>
       <div class="control-right">
+        <label class="toggle"><input type="checkbox" id="remote-only" /><span>Remote</span></label>
         <label class="toggle"><input type="checkbox" id="fresh-only" /><span>New only</span></label>
+        <label class="toggle"><input type="checkbox" id="salary-only" /><span>Has salary</span></label>
         <select id="sort" aria-label="Sort">
           <option value="new">Newest</option>
           <option value="company">Company</option>

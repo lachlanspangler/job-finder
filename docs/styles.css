@@ -85,13 +85,14 @@ body {
   display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
 }
 .search-wrap { position: relative; flex: 1; min-width: 220px; }
+.loc-wrap { position: relative; width: 200px; }
 .search-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 18px; }
-#search {
+#search, #loc {
   width: 100%; padding: 12px 14px 12px 40px; font-size: 15px;
   color: var(--text); background: var(--panel); border: 1px solid var(--line);
   border-radius: 12px; backdrop-filter: blur(10px);
 }
-#search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,140,255,.18); }
+#search:focus, #loc:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,140,255,.18); }
 .control-right { display: flex; gap: 10px; align-items: center; }
 .toggle { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13px; cursor: pointer; user-select: none;
   background: var(--panel); border: 1px solid var(--line); padding: 9px 12px; border-radius: 12px; }
@@ -127,6 +128,10 @@ body {
 .card .co { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; font-size: 14px; }
 .card .co .cdot { width: 9px; height: 9px; border-radius: 50%; background: var(--edge, var(--accent)); }
 .card .loc { color: var(--muted); font-size: 13px; }
+.card .salary { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start;
+  font-size: 13px; font-weight: 700; color: var(--quant);
+  background: rgba(67, 224, 138, 0.12); border: 1px solid rgba(67, 224, 138, 0.35);
+  padding: 3px 10px; border-radius: 8px; }
 .card .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
 .pill { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 7px; text-transform: capitalize;
   background: rgba(255,255,255,.06); border: 1px solid var(--line); color: var(--muted); }

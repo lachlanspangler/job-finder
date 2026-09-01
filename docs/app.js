@@ -1,7 +1,7 @@
 "use strict";
 
 const TAG_COLORS = { ai: "#b08cff", quant: "#43e08a", fintech: "#34d3ee", tech: "#fbbf3d" };
-const state = { jobs: [], query: "", tags: new Set(), sort: "new", freshOnly: false };
+const state = { jobs: [], query: "", loc: "", tags: new Set(), sort: "new", freshOnly: false, remoteOnly: false, salaryOnly: false };
 
 function parseTime(iso) {
   if (!iso) return NaN;
@@ -79,14 +79,19 @@ function renderTags() {
 
 function filtered() {
   const q = state.query.trim().toLowerCase();
+  const loc = state.loc.trim().toLowerCase();
   let jobs = state.jobs.filter((j) => {
     if (state.tags.size && !(j.tags || []).some((t) => state.tags.has(t))) return false;
     if (state.freshOnly && (Date.now() - parseTime(j.posted)) / 86400000 >= 1) return false;
+    if (state.salaryOnly && !j.salary) return false;
+    const jloc = (j.location || "").toLowerCase();
+    if (state.remoteOnly && !jloc.includes("remote")) return false;
+    if (loc && !jloc.includes(loc)) return false;
     if (!q) return true;
     return (
       j.title.toLowerCase().includes(q) ||
       j.company.toLowerCase().includes(q) ||
-      (j.location || "").toLowerCase().includes(q)
+      jloc.includes(q)
     );
   });
   if (state.sort === "company") jobs.sort((a, b) => a.company.localeCompare(b.company));
@@ -114,6 +119,7 @@ function render() {
           <div class="title">${escapeHtml(j.title)}</div>
           <div class="co"><span class="cdot"></span>${escapeHtml(j.company)}</div>
           <div class="loc">${escapeHtml(j.location || "—")}</div>
+          ${j.salary ? `<div class="salary">💰 ${escapeHtml(j.salary)}</div>` : ""}
           <div class="meta">
             ${tags}
             <span class="pill src">${escapeHtml(j.source || "")}</span>
@@ -142,7 +148,10 @@ async function load() {
 }
 
 document.getElementById("search").addEventListener("input", (e) => { state.query = e.target.value; render(); });
+document.getElementById("loc").addEventListener("input", (e) => { state.loc = e.target.value; render(); });
 document.getElementById("sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
 document.getElementById("fresh-only").addEventListener("change", (e) => { state.freshOnly = e.target.checked; render(); });
+document.getElementById("remote-only").addEventListener("change", (e) => { state.remoteOnly = e.target.checked; render(); });
+document.getElementById("salary-only").addEventListener("change", (e) => { state.salaryOnly = e.target.checked; render(); });
 
 load();
