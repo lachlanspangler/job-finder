@@ -13,6 +13,36 @@ on previous runs, and writes a dated digest of only the *new* postings.
   always keeps explicit new-grad/entry/intern roles.
 - **Daily digest.** Tracks seen postings in `seen.json` and writes
   `digests/YYYY-MM-DD.md` with just what's new since the last run.
+- **Live site + self-updating README.** `--export` writes `docs/jobs.json` for a
+  static [GitHub Pages site](https://lachlanspangler.github.io/job-finder/) and
+  refreshes the list below.
+
+## Recent openings
+
+<!-- JOBS:START -->
+_1653 openings · updated 2026-09-01T18:47Z · [browse the live site »](https://lachlanspangler.github.io/job-finder/)_
+
+- [Systems Test Engineer, End-to-End Validation | Consumer Devices](https://jobs.ashbyhq.com/openai/393b88d7-1fbc-466a-9108-a7c1bafeb8d8) — **OpenAI** · San Francisco · 1h ago
+- [Derived Data Engineer](https://www.jumptrading.com/hr/job?gh_jid=8171513) — **Jump Trading** · Chicago or New York · 0m ago
+- [Customer Experience Associate, Core Services Resolutions Desk](https://boards.greenhouse.io/robinhood/jobs/8130471?t=gh_src=&gh_jid=8130471) — **Robinhood** · Denver, CO; Westlake, TX · 1h ago
+- [Core Data Engineer](https://www.jumptrading.com/hr/job?gh_jid=8171060) — **Jump Trading** · New York or Chicago · 1h ago
+- [Margin Specialist](https://boards.greenhouse.io/robinhood/jobs/8171008?t=gh_src=&gh_jid=8171008) — **Robinhood** · Chicago, IL; Denver, CO; Lake Mary, FL; New York, NY · 1h ago
+- [Analyst, Privacy](https://www.coinbase.com/careers/positions/8168175?gh_jid=8168175) — **Coinbase** · Remote - USA · 2h ago
+- [Quantitative Trader/Researcher Summer Internship 2027 (2028 Graduates)](https://www.tower-research.com/open-positions/?gh_jid=8037860) — **Tower Research** · London · 3h ago
+- [Quantitative Trader/Researcher Graduate Programme 2027](https://www.tower-research.com/open-positions/?gh_jid=8037824) — **Tower Research** · London · 3h ago
+- [Sales Strategy & Operations Analyst](https://stripe.com/jobs/search?gh_jid=8164674) — **Stripe** · US · 3h ago
+- [Back Office Operations Senior Associate](https://boards.greenhouse.io/point72/jobs/8760806002?gh_jid=8760806002) — **Point72/Cubist** · Bengaluru, India · 3h ago
+- [AI Engineer - FDE (Forward Deployed Engineer)](https://databricks.com/company/careers/open-positions/job?gh_jid=8760289002) — **Databricks** · New York City, New York  +14 more · 4h ago
+- [Data Quality Engineer](https://job-boards.eu.greenhouse.io/imc/jobs/4879217101) — **IMC Trading** · Amsterdam, Netherlands · 5h ago
+- [Technical Support Engineer (EMEA)](https://stripe.com/jobs/search?gh_jid=7737248) — **Stripe** · London · 6h ago
+- [Account Associate- EMEA (French Speaking)](https://jobs.ashbyhq.com/openai/1eb6ef0f-0e51-46d3-b888-c1a4c22c190a) — **OpenAI** · Dublin, Ireland · 10h ago
+- [Account Associate - EMEA (German Speaking)](https://jobs.ashbyhq.com/openai/6c88bfaa-7f1b-4175-82f1-6d484a516ca8) — **OpenAI** · Dublin, Ireland · 10h ago
+- [Intern, Agent Development (Winter 2027)](https://jobs.ashbyhq.com/sierra/02e1c456-8489-4a74-9fe7-af8845b040e4) — **Sierra** · San Francisco, CA · 17h ago
+- [Operations Associate, Apprenticeship](https://stripe.com/jobs/search?gh_jid=8131339) — **Stripe** · Bengaluru · 13h ago
+- [Quantitative Researcher Intern, Bachelor or Master](https://www.tower-research.com/open-positions/?gh_jid=8168750) — **Tower Research** · Singapore, Hong Kong, Shanghai, Sydney · 14h ago
+- [Quantitative Researcher Intern, PhD or Postdoc](https://www.tower-research.com/open-positions/?gh_jid=8168634) — **Tower Research** · Singapore, Hong Kong, Shanghai, Sydney · 14h ago
+- [APX (New Grad 2027)](https://jobs.ashbyhq.com/sierra/d9c445da-c7b4-43a3-8d71-d367681c3015) — **Sierra** · San Francisco, CA · 20h ago
+<!-- JOBS:END -->
 
 ## Usage
 

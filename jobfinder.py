@@ -148,6 +148,93 @@ def posted_date(job: dict) -> str:
     return (job.get("posted") or "")[:10]
 
 
+def humanize_ago(iso: str) -> str:
+    """'3d ago' / '5h ago' from an ISO timestamp; 'recently' if unparseable."""
+    if not iso:
+        return "recently"
+    try:
+        d = dt.datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    except ValueError:
+        return "recently"
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=dt.timezone.utc)
+    secs = (dt.datetime.now(dt.timezone.utc) - d).total_seconds()
+    if secs < 3600:
+        return f"{max(0, int(secs // 60))}m ago"
+    if secs < 86400:
+        return f"{int(secs // 3600)}h ago"
+    days = int(secs // 86400)
+    if days < 30:
+        return f"{days}d ago"
+    if days < 365:
+        return f"{days // 30}mo ago"
+    return f"{days // 365}y ago"
+
+
+def collapse_locations(jobs: list[dict]) -> list[dict]:
+    """Merge the same role posted across many cities into one entry."""
+    groups: dict[tuple, dict] = {}
+    for j in jobs:
+        key = (j["company"], j["title"].lower())
+        g = groups.get(key)
+        if g is None:
+            g = dict(j)
+            g["_locs"] = [j["location"]] if j["location"] else []
+            groups[key] = g
+        else:
+            if j["location"] and j["location"] not in g["_locs"]:
+                g["_locs"].append(j["location"])
+            if j.get("posted", "") > g.get("posted", ""):
+                g["posted"] = j["posted"]
+    out = []
+    for g in groups.values():
+        locs = g.pop("_locs", [])
+        if locs:
+            g["location"] = locs[0] + (f"  +{len(locs) - 1} more" if len(locs) > 1 else "")
+        out.append(g)
+    return out
+
+
+def export_site(matched: list[dict], top: int) -> None:
+    """Write docs/jobs.json for the static site and refresh the README section."""
+    jobs = collapse_locations(matched)
+    jobs.sort(key=lambda j: j.get("posted", ""), reverse=True)
+
+    generated = dt.datetime.now(dt.timezone.utc).isoformat()
+    docs = ROOT / "docs"
+    docs.mkdir(exist_ok=True)
+    payload = {
+        "generated_at": generated,
+        "count": len(jobs),
+        "jobs": [
+            {k: j.get(k, "") for k in ("company", "title", "location", "url", "posted", "source")}
+            | {"tags": j.get("tags", [])}
+            for j in jobs[:600]
+        ],
+    }
+    (docs / "jobs.json").write_text(json.dumps(payload))
+
+    rows = [
+        f"- [{j['title']}]({j['url']}) — **{j['company']}** · {j['location'] or '—'} · {humanize_ago(j.get('posted', ''))}"
+        for j in jobs[:top]
+    ]
+    block = (
+        "<!-- JOBS:START -->\n"
+        f"_{len(jobs)} openings · updated {generated[:16]}Z · "
+        "[browse the live site »](https://lachlanspangler.github.io/job-finder/)_\n\n"
+        + "\n".join(rows)
+        + "\n<!-- JOBS:END -->"
+    )
+    readme = ROOT / "README.md"
+    text = readme.read_text()
+    if "<!-- JOBS:START -->" in text and "<!-- JOBS:END -->" in text:
+        text = re.sub(r"<!-- JOBS:START -->.*?<!-- JOBS:END -->", lambda _m: block, text, flags=re.S)
+    else:
+        text = text.rstrip() + "\n\n## Recent openings\n\n" + block + "\n"
+    readme.write_text(text)
+    print(f"exported {len(jobs)} roles to docs/jobs.json and refreshed README (top {top}).")
+
+
 def notify(text: str) -> None:
     import subprocess
     try:
@@ -173,6 +260,9 @@ def main() -> int:
                     help="only companies whose name contains this substring")
     ap.add_argument("--limit", type=int, default=0, help="cap number of results shown")
     ap.add_argument("--notify", action="store_true", help="post a macOS notification with the count")
+    ap.add_argument("--export", action="store_true",
+                    help="write docs/jobs.json for the static site and refresh the README section")
+    ap.add_argument("--top", type=int, default=25, help="rows to list in the README (default 25)")
     args = ap.parse_args()
 
     cfg = json.loads((ROOT / "companies.json").read_text())
@@ -196,6 +286,12 @@ def main() -> int:
     # Filter to target level + user filters.
     matched = [j for j in all_jobs
                if is_target_level(j, args.max_years) and matches_filters(j, args.role, tags)]
+
+    if args.export:
+        export_site(matched, args.top)
+        if args.notify:
+            notify(f"{len(matched)} roles across {len(companies)} companies")
+        return 0
 
     seen = load_seen()
     if args.all:
