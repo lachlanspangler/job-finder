@@ -1,0 +1,9 @@
+# Personal runtime state (not source)
+seen.json
+digests/
+scripts/launchd.out
+scripts/launchd.err
+
+.DS_Store
+__pycache__/
+*.pyc

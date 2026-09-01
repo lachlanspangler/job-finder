@@ -1,0 +1,28 @@
+{
+  "_comment": "Curated boards. 'ats' is greenhouse|ashby|lever; 'token' is the board slug. Add companies here — validate a greenhouse token at https://boards-api.greenhouse.io/v1/boards/<token>/jobs and an ashby token at https://api.ashbyhq.com/posting-api/job-board/<token>. Tags are free-form for filtering (--tag).",
+  "companies": [
+    { "name": "Anthropic",      "ats": "greenhouse", "token": "anthropic",           "tags": ["ai"] },
+    { "name": "OpenAI",         "ats": "ashby",      "token": "openai",              "tags": ["ai"] },
+    { "name": "Scale AI",       "ats": "greenhouse", "token": "scaleai",             "tags": ["ai"] },
+    { "name": "Cursor",         "ats": "ashby",      "token": "cursor",              "tags": ["ai"] },
+    { "name": "Sierra",         "ats": "ashby",      "token": "sierra",              "tags": ["ai"] },
+    { "name": "Databricks",     "ats": "greenhouse", "token": "databricks",          "tags": ["ai", "tech"] },
+    { "name": "Jump Trading",   "ats": "greenhouse", "token": "jumptrading",         "tags": ["quant"] },
+    { "name": "Akuna Capital",  "ats": "greenhouse", "token": "akunacapital",        "tags": ["quant"] },
+    { "name": "Point72/Cubist", "ats": "greenhouse", "token": "point72",             "tags": ["quant"] },
+    { "name": "Tower Research", "ats": "greenhouse", "token": "towerresearchcapital","tags": ["quant"] },
+    { "name": "IMC Trading",    "ats": "greenhouse", "token": "imc",                 "tags": ["quant"] },
+    { "name": "Stripe",         "ats": "greenhouse", "token": "stripe",              "tags": ["fintech"] },
+    { "name": "Coinbase",       "ats": "greenhouse", "token": "coinbase",            "tags": ["fintech"] },
+    { "name": "Robinhood",      "ats": "greenhouse", "token": "robinhood",           "tags": ["fintech"] },
+    { "name": "Brex",           "ats": "greenhouse", "token": "brex",                "tags": ["fintech"] },
+    { "name": "Ramp",           "ats": "ashby",      "token": "ramp",                "tags": ["fintech"] },
+    { "name": "Gemini",         "ats": "greenhouse", "token": "gemini",              "tags": ["fintech"] },
+    { "name": "Sardine",        "ats": "ashby",      "token": "sardine",             "tags": ["fintech"] },
+    { "name": "Figma",          "ats": "greenhouse", "token": "figma",               "tags": ["tech"] },
+    { "name": "Notion",         "ats": "ashby",      "token": "notion",              "tags": ["tech"] },
+    { "name": "Linear",         "ats": "ashby",      "token": "linear",              "tags": ["tech"] },
+    { "name": "Vanta",          "ats": "ashby",      "token": "vanta",               "tags": ["tech"] },
+    { "name": "Flexport",       "ats": "greenhouse", "token": "flexport",            "tags": ["tech"] }
+  ]
+}
