@@ -73,6 +73,17 @@ def is_software_or_quant(title: str) -> bool:
     return bool(SWEQUANT_INCLUDE_RE.search(title)) and not SWEQUANT_EXCLUDE_RE.search(title)
 
 
+# Best-effort salary range in free text: "$150,000 - $200,000" or "$150K – $200K".
+SALARY_RE = re.compile(
+    r"\$\s?\d{2,3}(?:,\d{3})?\s?[kK]?\s*(?:-|–|—|to)\s*\$?\s?\d{2,3}(?:,\d{3})?\s?[kK]?"
+)
+
+
+def extract_salary(text: str) -> str:
+    m = SALARY_RE.search(text or "")
+    return re.sub(r"\s+", " ", m.group(0)).strip() if m else ""
+
+
 def fetch_json(url: str, timeout: int = 15) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -97,6 +108,7 @@ def normalize_greenhouse(company: dict) -> list[dict]:
     out = []
     for j in data.get("jobs", []):
         loc = (j.get("location") or {}).get("name") or ""
+        desc = html_to_text(j.get("content", ""))
         out.append({
             "company": company["name"],
             "tags": company.get("tags", []),
@@ -106,18 +118,21 @@ def normalize_greenhouse(company: dict) -> list[dict]:
             "location": loc,
             "url": j.get("absolute_url") or "",
             "posted": j.get("first_published") or j.get("updated_at") or "",
-            "desc": html_to_text(j.get("content", "")),
+            "salary": extract_salary(desc),
+            "desc": desc,
         })
     return out
 
 
 def normalize_ashby(company: dict) -> list[dict]:
-    url = f"https://api.ashbyhq.com/posting-api/job-board/{company['token']}"
+    url = f"https://api.ashbyhq.com/posting-api/job-board/{company['token']}?includeCompensation=true"
     data = fetch_json(url)
     out = []
     for j in data.get("jobs", []):
         if j.get("isListed") is False:
             continue
+        comp = j.get("compensation") or {}
+        salary = comp.get("scrapeableCompensationSalarySummary") or comp.get("compensationTierSummary") or ""
         out.append({
             "company": company["name"],
             "tags": company.get("tags", []),
@@ -127,6 +142,7 @@ def normalize_ashby(company: dict) -> list[dict]:
             "location": j.get("location") or ("Remote" if j.get("isRemote") else ""),
             "url": j.get("jobUrl") or j.get("applyUrl") or "",
             "posted": j.get("publishedAt") or "",
+            "salary": salary,
             "desc": j.get("descriptionPlain") or "",
         })
     return out
@@ -208,6 +224,8 @@ def collapse_locations(jobs: list[dict]) -> list[dict]:
                 g["_locs"].append(j["location"])
             if j.get("posted", "") > g.get("posted", ""):
                 g["posted"] = j["posted"]
+            if not g.get("salary") and j.get("salary"):
+                g["salary"] = j["salary"]
     out = []
     for g in groups.values():
         locs = g.pop("_locs", [])
@@ -232,7 +250,7 @@ def export_site(matched: list[dict], top: int) -> None:
         "generated_at": generated,
         "count": len(jobs),
         "jobs": [
-            {k: j.get(k, "") for k in ("company", "title", "location", "url", "posted", "source")}
+            {k: j.get(k, "") for k in ("company", "title", "location", "url", "posted", "source", "salary")}
             | {"tags": j.get("tags", [])}
             for j in jobs[:600]
         ],
