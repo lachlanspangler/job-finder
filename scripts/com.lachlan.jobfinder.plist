@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Daily job-finder run at 08:00 local time.
+
+  Install:
+    cp scripts/com.lachlan.jobfinder.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.lachlan.jobfinder.plist
+
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.lachlan.jobfinder.plist
+    rm ~/Library/LaunchAgents/com.lachlan.jobfinder.plist
+
+  Each run appends today's digest under digests/ and posts a notification with
+  the count of new postings. Runs only while you are logged in.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lachlan.jobfinder</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/spanglew/job-finder/jobfinder.py</string>
+        <string>--notify</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/spanglew/job-finder/scripts/launchd.out</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/spanglew/job-finder/scripts/launchd.err</string>
+</dict>
+</plist>
