@@ -16,6 +16,9 @@ on previous runs, and writes a dated digest of only the *new* postings.
 - **Live site + self-updating README.** `--export` writes `docs/jobs.json` for a
   static [GitHub Pages site](https://lachlanspangler.github.io/job-finder/) and
   refreshes the list below.
+- **Profile autofill.** A browser userscript ([`autofill/`](autofill/)) fills the
+  application form you're viewing from a stored profile — you review and submit.
+  Never auto-submits, never touches CAPTCHAs or resume upload.
 
 ## Recent openings
 
