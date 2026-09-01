@@ -23,6 +23,28 @@
     { "name": "Notion",         "ats": "ashby",      "token": "notion",              "tags": ["tech"] },
     { "name": "Linear",         "ats": "ashby",      "token": "linear",              "tags": ["tech"] },
     { "name": "Vanta",          "ats": "ashby",      "token": "vanta",               "tags": ["tech"] },
-    { "name": "Flexport",       "ats": "greenhouse", "token": "flexport",            "tags": ["tech"] }
+    { "name": "Flexport",       "ats": "greenhouse", "token": "flexport",            "tags": ["tech"] },
+
+    { "name": "Jane Street",    "ats": "greenhouse", "token": "janestreet",          "tags": ["quant"] },
+    { "name": "Hudson River Trading", "ats": "greenhouse", "token": "wehrtyou",       "tags": ["quant"] },
+    { "name": "DRW",            "ats": "greenhouse", "token": "drweng",              "tags": ["quant"] },
+    { "name": "Five Rings",     "ats": "greenhouse", "token": "fiveringsllc",        "tags": ["quant"] },
+    { "name": "Old Mission",    "ats": "greenhouse", "token": "oldmissioncapital",   "tags": ["quant"] },
+    { "name": "PDT Partners",   "ats": "greenhouse", "token": "pdtpartners",         "tags": ["quant"] },
+    { "name": "Vatic",          "ats": "greenhouse", "token": "vaticlabs",           "tags": ["quant"] },
+    { "name": "Virtu Financial","ats": "greenhouse", "token": "virtu",               "tags": ["quant"] },
+    { "name": "Flow Traders",   "ats": "greenhouse", "token": "flowtraders",         "tags": ["quant"] },
+    { "name": "AQR",            "ats": "greenhouse", "token": "aqr",                 "tags": ["quant"] },
+    { "name": "Mercor",         "ats": "ashby",      "token": "mercor",              "tags": ["ai"] },
+    { "name": "Decagon",        "ats": "ashby",      "token": "decagon",             "tags": ["ai"] },
+    { "name": "Fireworks AI",   "ats": "ashby",      "token": "fireworks",           "tags": ["ai"] },
+    { "name": "Together AI",    "ats": "greenhouse", "token": "togetherai",          "tags": ["ai"] },
+    { "name": "CoreWeave",      "ats": "greenhouse", "token": "coreweave",           "tags": ["ai", "tech"] },
+    { "name": "Palantir",       "ats": "lever",      "token": "palantir",            "tags": ["tech"] },
+    { "name": "Spotify",        "ats": "lever",      "token": "spotify",             "tags": ["tech"] },
+    { "name": "Airbnb",         "ats": "greenhouse", "token": "airbnb",              "tags": ["tech"] },
+    { "name": "Vercel",         "ats": "greenhouse", "token": "vercel",              "tags": ["tech"] },
+    { "name": "Asana",          "ats": "greenhouse", "token": "asana",               "tags": ["tech"] },
+    { "name": "Titan",          "ats": "ashby",      "token": "titan",               "tags": ["tech"] }
   ]
 }

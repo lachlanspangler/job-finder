@@ -148,7 +148,39 @@ def normalize_ashby(company: dict) -> list[dict]:
     return out
 
 
-FETCHERS = {"greenhouse": normalize_greenhouse, "ashby": normalize_ashby}
+def normalize_lever(company: dict) -> list[dict]:
+    url = f"https://api.lever.co/v0/postings/{company['token']}?mode=json"
+    data = fetch_json(url)
+    out = []
+    for p in data if isinstance(data, list) else []:
+        cats = p.get("categories") or {}
+        created = p.get("createdAt")
+        posted = ""
+        if isinstance(created, (int, float)):
+            posted = dt.datetime.fromtimestamp(created / 1000, dt.timezone.utc).isoformat()
+        salary = ""
+        sr = p.get("salaryRange") or {}
+        if sr.get("min") and sr.get("max"):
+            cur = sr.get("currency") or "USD"
+            sym = "$" if cur == "USD" else cur + " "
+            salary = f"{sym}{int(sr['min']):,} – {int(sr['max']):,}"
+        desc = p.get("descriptionPlain") or ""
+        out.append({
+            "company": company["name"],
+            "tags": company.get("tags", []),
+            "source": "lever",
+            "key": f"lever:{company['token']}:{p['id']}",
+            "title": (p.get("text") or "").strip(),
+            "location": cats.get("location") or "",
+            "url": p.get("hostedUrl") or p.get("applyUrl") or "",
+            "posted": posted,
+            "salary": salary or extract_salary(desc),
+            "desc": desc,
+        })
+    return out
+
+
+FETCHERS = {"greenhouse": normalize_greenhouse, "ashby": normalize_ashby, "lever": normalize_lever}
 
 
 def is_target_level(job: dict, max_years: int) -> bool:
