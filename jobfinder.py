@@ -50,6 +50,28 @@ EARLY_RE = re.compile(
 YEARS_RE = re.compile(r"(\d{1,2})\s*\+?\s*years", re.IGNORECASE)
 TAG_RE = re.compile(r"<[^>]+>")
 
+# Software-engineering and quantitative roles (what the live site shows).
+SWEQUANT_INCLUDE_RE = re.compile(
+    r"\b(software|engineer|engineering|developer|swe|sde|programmer|back[-\s]?end|"
+    r"front[-\s]?end|full[-\s]?stack|systems?|infrastructure|platform|sre|devops|"
+    r"reliability|machine\s+learning|\bml\b|\bai\b|data\s+engineer|quant|quantitative|"
+    r"trader|trading|researcher|strateg)\b",
+    re.IGNORECASE,
+)
+# Non-engineering roles that would otherwise slip through (e.g. "Sales Engineer").
+SWEQUANT_EXCLUDE_RE = re.compile(
+    r"\b(sales|solutions?|support|customer|success|account\s|marketing|recruit|talent|"
+    r"people|human\s+resources|\bhr\b|finance|accounting|legal|counsel|designer|design\b|"
+    r"product\s+manager|program\s+manager|project\s+manager|operations|office|"
+    r"administrative|mechanical|electrical|hardware|biomedical|chemical|civil|clinical|"
+    r"nurse|technician|preparedness)\b",
+    re.IGNORECASE,
+)
+
+
+def is_software_or_quant(title: str) -> bool:
+    return bool(SWEQUANT_INCLUDE_RE.search(title)) and not SWEQUANT_EXCLUDE_RE.search(title)
+
 
 def fetch_json(url: str, timeout: int = 15) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -196,8 +218,11 @@ def collapse_locations(jobs: list[dict]) -> list[dict]:
 
 
 def export_site(matched: list[dict], top: int) -> None:
-    """Write docs/jobs.json for the static site and refresh the README section."""
-    jobs = collapse_locations(matched)
+    """Write docs/jobs.json for the static site and refresh the README section.
+
+    The site is scoped to software-engineering and quantitative roles."""
+    focused = [j for j in matched if is_software_or_quant(j["title"])]
+    jobs = collapse_locations(focused)
     jobs.sort(key=lambda j: j.get("posted", ""), reverse=True)
 
     generated = dt.datetime.now(dt.timezone.utc).isoformat()
