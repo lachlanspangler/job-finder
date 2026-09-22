@@ -23,7 +23,7 @@ on previous runs, and writes a dated digest of only the *new* postings.
 ## Recent openings
 
 <!-- JOBS:START -->
-_0 openings · updated 2026-09-21T13:03Z · [browse the live site »](https://lachlanspangler.github.io/job-finder/)_
+_0 openings · updated 2026-09-22T13:51Z · [browse the live site »](https://lachlanspangler.github.io/job-finder/)_
 
 
 <!-- JOBS:END -->
